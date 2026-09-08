@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-bg text-ink-2 font-sans antialiased;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* 前台标题一律衬线 */
+h1, h2, h3, h4 {
+  @apply font-serif text-ink;
+  margin: 0;
+}
+
+/* 固定导航预留：前台 nav 68px，内容区 padding-top 96px（见 UIUX §1.4） */
+.page-top {
+  @apply pt-24;
+}
+
+/* 容器：max-width 1200px，左右留白 24px */
+.wrap {
+  @apply mx-auto max-w-wrap px-6;
+}
+
+/* 区块间距：72px 0（移动端 48px 0） */
+.section {
+  @apply py-[72px];
+}
+@media (max-width: 768px) {
+  .section { @apply py-12; }
+}
+
+/* 焦点环（无障碍）：前台金色 3px */
+:focus-visible {
+  outline: 3px solid #C2A36B;
+  outline-offset: 2px;
+}
+
+/* 尊重系统动画降级 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

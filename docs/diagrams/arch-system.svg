@@ -1,0 +1,71 @@
+<svg viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .box{fill:#ffffff;stroke:#5b6b7b;stroke-width:1.4;rx:6}
+    .boxB{fill:#eef3ff;stroke:#1677ff;stroke-width:1.4}
+    .boxC{fill:#f3f0ff;stroke:#7c4dff;stroke-width:1.4}
+    .boxD{fill:#eafaf0;stroke:#389e0d;stroke-width:1.4}
+    .t{font-family:sans-serif;font-size:12.5px;fill:#1f1f1f;text-anchor:middle;font-weight:600}
+    .ts{font-family:sans-serif;font-size:10px;fill:#555;text-anchor:middle}
+    .edge{stroke:#7a8694;stroke-width:1.6;marker-end:url(#ar)}
+    .lg{font-family:sans-serif;font-size:10px;fill:#555}
+    .bg{fill:#ffffff}
+  </style>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7a8694"/>
+    </marker>
+  </defs>
+
+  <text x="340" y="22" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#1f1f1f">栖木家具官网 · 整体系统架构图</text>
+
+  <!-- Client layer -->
+  <rect class="boxB" x="36" y="46" width="200" height="58" rx="6"/>
+  <text class="t" x="136" y="70">前台官网</text>
+  <text class="ts" x="136" y="88">React 18 + TypeScript + TailwindCSS</text>
+
+  <rect class="boxB" x="444" y="46" width="200" height="58" rx="6"/>
+  <text class="t" x="544" y="70">后台管理系统</text>
+  <text class="ts" x="544" y="88">React 18 + TypeScript + Ant Design</text>
+
+  <!-- Edge / proxy -->
+  <rect class="box" x="240" y="132" width="200" height="50" rx="6"/>
+  <text class="t" x="340" y="153">反向代理 / 静态托管</text>
+  <text class="ts" x="340" y="171">Nginx（API 反代 + 前端静态资源）</text>
+
+  <!-- Backend -->
+  <rect class="boxC" x="170" y="212" width="340" height="96" rx="6"/>
+  <text class="t" x="340" y="232" style="text-anchor:middle">FastAPI 后端应用（/api/v1）</text>
+  <text class="ts" x="340" y="252">JWT 鉴权中间件 · RBAC 权限中间件</text>
+  <text class="ts" x="340" y="268">登录限流（内存字典，10 分钟重置）</text>
+  <text class="ts" x="340" y="284">模块：产品 / 新闻 / 轮播图 / 企业资料</text>
+  <text class="ts" x="340" y="300">留言询价 / 用户角色(RBAC) / 文件上传</text>
+
+  <!-- Data & storage -->
+  <rect class="box" x="24" y="346" width="150" height="56" rx="6"/>
+  <text class="t" x="99" y="368">SQLAlchemy 2.0</text>
+  <text class="ts" x="99" y="386">ORM 层（统一模型）</text>
+
+  <rect class="boxD" x="190" y="346" width="156" height="56" rx="6"/>
+  <text class="t" x="268" y="368">SQLite / PostgreSQL</text>
+  <text class="ts" x="268" y="386">开发 SQLite · 生产可切 PostgreSQL</text>
+
+  <rect class="box" x="362" y="346" width="138" height="56" rx="6"/>
+  <text class="t" x="431" y="368">uploads/ 静态文件</text>
+  <text class="ts" x="431" y="386">图片本地存储（≤2MB）</text>
+
+  <rect class="box" x="516" y="346" width="140" height="56" rx="6"/>
+  <text class="t" x="586" y="368">对象存储（待定）</text>
+  <text class="ts" x="586" y="386">后续迭代：CDN / OSS</text>
+
+  <!-- edges -->
+  <line class="edge" x1="136" y1="104" x2="320" y2="132"/>
+  <line class="edge" x1="544" y1="104" x2="360" y2="132"/>
+  <line class="edge" x1="340" y1="182" x2="340" y2="212"/>
+  <line class="edge" x1="280" y1="308" x2="120" y2="346"/>
+  <line class="edge" x1="340" y1="308" x2="268" y2="346"/>
+  <line class="edge" x1="400" y1="308" x2="431" y2="346"/>
+
+  <!-- legend -->
+  <rect class="bg" x="24" y="416" width="632" height="16"/>
+  <text class="lg" x="30" y="428">说明：前台/后台共享同一套后端 API 契约；鉴权仅作用于后台与写接口，前台读接口公开。</text>
+</svg>

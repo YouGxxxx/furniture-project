@@ -1,0 +1,64 @@
+<svg viewBox="0 0 680 460" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .cont{fill:#fbfcfe;stroke:#5b6b7b;stroke-width:1.4}
+    .contA{fill:#eef3ff;stroke:#1677ff;stroke-width:1.4}
+    .ct{font-family:sans-serif;font-size:12.5px;fill:#1677ff;font-weight:700}
+    .chip{fill:#ffffff;stroke:#9aa7b4;stroke-width:1;rx:5}
+    .ct2{font-family:sans-serif;font-size:10px;fill:#333;text-anchor:middle}
+    .ct3{font-family:sans-serif;font-size:9px;fill:#666;text-anchor:middle}
+    .api{fill:#f3f0ff;stroke:#7c4dff;stroke-width:1.4}
+    .edge{stroke:#7a8694;stroke-width:1.6;marker-end:url(#ar)}
+  </style>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7a8694"/>
+    </marker>
+  </defs>
+
+  <text x="340" y="22" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#1f1f1f">后台管理端（运营后台）模块架构图</text>
+
+  <!-- A 登录/鉴权 -->
+  <rect class="contA" x="220" y="42" width="240" height="64" rx="8"/>
+  <text class="ct" x="232" y="62">① 登录 / 鉴权</text>
+  <text class="ct3" x="340" y="82">JWT 登录 · 失败 5 次/10min 锁定</text>
+  <text class="ct3" x="340" y="98">未登录访问受保护路由跳登录页</text>
+
+  <!-- B 布局壳 -->
+  <rect class="cont" x="24" y="122" width="632" height="58" rx="8"/>
+  <text class="ct" x="36" y="142">② 布局壳 Layout</text>
+  <text class="ct3" x="340" y="162">Sider 菜单（按 RBAC 过滤） · Header（角色徽章/退出） · Content（流式滚动）</text>
+
+  <!-- C 业务模块 -->
+  <rect class="cont" x="24" y="194" width="632" height="96" rx="8"/>
+  <text class="ct" x="36" y="214">③ 业务模块</text>
+  <g>
+    <rect class="chip" x="40" y="224" width="86" height="26"/><text class="ct2" x="83" y="241">仪表盘</text>
+    <rect class="chip" x="134" y="224" width="86" height="26"/><text class="ct2" x="177" y="241">产品管理</text>
+    <rect class="chip" x="228" y="224" width="86" height="26"/><text class="ct2" x="271" y="241">新闻管理</text>
+    <rect class="chip" x="322" y="224" width="86" height="26"/><text class="ct2" x="365" y="241">Banner</text>
+    <rect class="chip" x="416" y="224" width="86" height="26"/><text class="ct2" x="459" y="241">企业资料</text>
+    <rect class="chip" x="510" y="224" width="86" height="26"/><text class="ct2" x="553" y="241">留言询价</text>
+    <rect class="chip" x="40" y="258" width="86" height="26"/><text class="ct2" x="83" y="275">用户管理</text>
+    <rect class="chip" x="134" y="258" width="120" height="26"/><text class="ct2" x="194" y="275">角色权限(RBAC)</text>
+  </g>
+
+  <!-- D 共享层 -->
+  <rect class="cont" x="24" y="306" width="632" height="64" rx="8"/>
+  <text class="ct" x="36" y="326">④ 共享层</text>
+  <g>
+    <rect class="chip" x="40" y="336" width="150" height="26"/><text class="ct2" x="115" y="353">Ant Design 组件</text>
+    <rect class="chip" x="204" y="336" width="170" height="26"/><text class="ct2" x="289" y="353">axios API 层（拦截器）</text>
+    <rect class="chip" x="388" y="336" width="170" height="26"/><text class="ct2" x="473" y="353">Zustand + React Query</text>
+    <rect class="chip" x="572" y="336" width="100" height="26"/><text class="ct2" x="622" y="353">can() 指令</text>
+  </g>
+
+  <!-- API -->
+  <rect class="api" x="170" y="388" width="340" height="46" rx="8"/>
+  <text class="ct" x="340" y="410" style="text-anchor:middle;fill:#5b3fd6">后端 API（/api/v1，JWT + RBAC 校验）</text>
+  <text class="ct3" x="340" y="426" style="fill:#5b3fd6">SQLite/PostgreSQL · SQLAlchemy · uploads/</text>
+
+  <line class="edge" x1="340" y1="106" x2="340" y2="122"/>
+  <line class="edge" x1="340" y1="180" x2="340" y2="194"/>
+  <line class="edge" x1="340" y1="290" x2="340" y2="306"/>
+  <line class="edge" x1="340" y1="370" x2="340" y2="388"/>
+</svg>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="WRU2Rl8T97PhgKsADJv9Bh">
+<head data-page-node-id="DdfxFwvMonvK7aZBySNP5w">
+<meta charset="UTF-8" data-page-node-id="jv9taokkbaNo5MONPq4RTE" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="4JvgFHMaWfQ73cwCV0tP4z" />
+<title>栖木家居 · 企业官网原型</title>
+<style>
+  /* ============ 设计系统（企业家居 · 温润高级风） ============ */
+  :root{
+    --bg:#FAF7F2;            /* 暖米底色 */
+    --surface:#FFFFFF;       /* 卡片表面 */
+    --surface-2:#F3EDE3;     /* 次级面 */
+    --primary:#7D5A3C;       /* 胡桃木棕（品牌主色） */
+    --primary-dark:#5C4128;  /* 深胡桃 */
+    --primary-soft:#EFE4D8;  /* 主色浅底 */
+    --accent:#B07D56;        /* 暖铜强调色 */
+    --gold:#C2A36B;          /* 点缀金 */
+    --text:#2A2420;          /* 标题近黑 */
+    --text-2:#5A524A;        /* 正文 */
+    --muted:#8A7F73;         /* 弱化 */
+    --border:#E8E0D5;        /* 边框 */
+    --success:#3F8F5B;
+    --danger:#C0492F;
+    --radius:12px;
+    --radius-sm:8px;
+    --shadow:0 6px 24px rgba(92,65,40,.08);
+    --shadow-lg:0 16px 48px rgba(92,65,40,.14);
+    --z-nav:50; --z-drop:60; --z-modal:80;
+    --serif:"Songti SC","STSong","SimSun",Georgia,"Noto Serif SC",serif;
+    --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    background:var(--bg);
+    color:var(--text-2);
+    line-height:1.7;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--serif);color:var(--text);font-weight:600;line-height:1.3}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  .cursor-pointer{cursor:pointer}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+
+  /* ============ 布局容器 ============ */
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .section{padding:72px 0}
+  .sec-head{text-align:center;margin-bottom:40px}
+  .sec-head .eyebrow{color:var(--accent);letter-spacing:3px;font-size:13px;font-weight:600;text-transform:uppercase}
+  .sec-head h2{font-size:32px;margin:10px 0 8px}
+  .sec-head p{color:var(--muted);max-width:620px;margin:0 auto}
+
+  /* ============ 顶部导航（浮动固定） ============ */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:var(--z-nav);
+    background:rgba(250,247,242,.88);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;gap:8px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:22px;color:var(--text);font-weight:700}
+  .brand .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center}
+  .brand .logo svg{width:20px;height:20px;color:#fff}
+  .brand small{font-family:var(--sans);font-size:11px;letter-spacing:2px;color:var(--muted);font-weight:500;display:block;margin-top:-4px}
+  .menu{display:flex;align-items:center;gap:4px;margin-left:12px}
+  .menu>li{position:relative;list-style:none}
+  .menu>li>a,.menu>li>button{
+    display:flex;align-items:center;gap:6px;height:44px;padding:0 16px;border-radius:8px;
+    color:var(--text-2);font-size:15px;font-weight:500;transition:background .2s,color .2s;
+  }
+  .menu>li>a:hover,.menu>li>button:hover{background:var(--primary-soft);color:var(--primary-dark)}
+  .menu>li.active>a{color:var(--primary-dark);background:var(--primary-soft)}
+  .menu>li>a svg,.menu>li>button svg{width:14px;height:14px;transition:transform .2s}
+  .menu>li:hover>button svg{transform:rotate(180deg)}
+  /* 下拉二级 */
+  .dropdown{
+    position:absolute;top:54px;left:0;min-width:200px;background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);
+    padding:8px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s ease;z-index:var(--z-drop);
+  }
+  .menu>li:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+  .dropdown a{display:block;padding:10px 14px;border-radius:8px;font-size:14px;color:var(--text-2);transition:background .2s,color .2s}
+  .dropdown a:hover{background:var(--primary-soft);color:var(--primary-dark)}
+  .dropdown a .tag{font-size:11px;color:var(--muted);margin-left:6px}
+  .nav-cta{display:flex;align-items:center;gap:12px;margin-left:auto}
+  .btn-quote{background:var(--primary);color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:600;transition:background .2s,transform .15s}
+  .btn-quote:hover{background:var(--primary-dark)}
+  .btn-quote:active{transform:scale(.97)}
+  .hamburger{display:none;width:44px;height:44px;border-radius:8px;align-items:center;justify-content:center;color:var(--text)}
+  .hamburger:hover{background:var(--primary-soft)}
+
+  /* ============ 按钮 ============ */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:10px;font-size:15px;font-weight:600;transition:all .2s;cursor:pointer}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;border:1.5px solid var(--primary);color:var(--primary-dark)}
+  .btn-ghost:hover{background:var(--primary-soft)}
+
+  /* ============ Hero 轮播 ============ */
+  .hero{margin-top:68px;position:relative;height:540px;overflow:hidden;background:var(--surface-2)}
+  .slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease;display:flex;align-items:center}
+  .slide.active{opacity:1}
+  .slide .bg{position:absolute;inset:0}
+  .slide .overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(42,36,32,.72),rgba(42,36,32,.25))}
+  .slide .content{position:relative;max-width:1200px;margin:0 auto;padding:0 24px;width:100%;color:#fff}
+  .slide .content .kicker{letter-spacing:3px;font-size:13px;color:var(--gold);font-weight:600}
+  .slide .content h1{color:#fff;font-size:46px;margin:14px 0;max-width:560px}
+  .slide .content p{font-size:17px;max-width:480px;color:rgba(255,255,255,.9);margin-bottom:26px}
+  .slide .content .btn{background:#fff;color:var(--primary-dark)}
+  .slide .content .btn:hover{background:var(--gold);color:#fff}
+  .hero-dots{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:5}
+  .hero-dots button{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .2s}
+  .hero-dots button.active{background:#fff;width:28px;border-radius:6px}
+  .hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;z-index:5;transition:background .2s}
+  .hero-arrow:hover{background:rgba(255,255,255,.4)}
+  .hero-arrow.prev{left:20px}.hero-arrow.next{right:20px}
+
+  /* ============ 品牌实力 ============ */
+  .strength{background:var(--surface-2)}
+  .strength-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+  .strength-grid h2{font-size:30px;margin-bottom:16px}
+  .strength-grid p{color:var(--text-2);margin-bottom:14px}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;text-align:center;box-shadow:var(--shadow)}
+  .stat .num{font-family:var(--serif);font-size:34px;color:var(--primary);font-weight:700}
+  .stat .lbl{color:var(--muted);font-size:14px;margin-top:4px}
+
+  /* ============ 产品系列入口 ============ */
+  .series-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .series-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;cursor:pointer}
+  .series-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+  .series-card .thumb{height:140px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:22px;font-weight:700}
+  .series-card .body{padding:16px 18px}
+  .series-card .body h4{font-size:18px;margin-bottom:4px}
+  .series-card .body span{color:var(--muted);font-size:13px}
+
+  /* ============ 产品中心 ============ */
+  .filters{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:28px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:13px;color:var(--muted);font-weight:600}
+  .field select,.field input{font-family:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);min-width:160px;min-height:44px}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--primary)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{padding:8px 14px;border-radius:20px;border:1px solid var(--border);font-size:13px;color:var(--text-2);background:var(--surface);transition:all .2s;min-height:40px}
+  .chip:hover{border-color:var(--primary)}
+  .chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .product-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;cursor:pointer}
+  .product-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+  .product-card .cover{height:200px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .product-card .cover svg{width:54px;height:54px;opacity:.85}
+  .product-card .body{padding:16px 18px}
+  .product-card .body h4{font-size:18px;margin-bottom:8px}
+  .product-card .meta{display:flex;gap:8px;flex-wrap:wrap}
+  .product-card .meta span{font-size:12px;padding:4px 10px;border-radius:20px;background:var(--primary-soft);color:var(--primary-dark)}
+  .product-card .body .view{margin-top:12px;font-size:13px;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:4px}
+  .empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1}
+
+  /* ============ 分页 ============ */
+  .pager{display:flex;justify-content:center;gap:8px;margin-top:32px}
+  .pager button{min-width:44px;height:44px;padding:0 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);transition:all .2s}
+  .pager button:hover{border-color:var(--primary);color:var(--primary-dark)}
+  .pager button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+  /* ============ 新闻 ============ */
+  .news-tabs{display:flex;justify-content:center;gap:10px;margin-bottom:32px}
+  .news-tabs button{padding:10px 22px;border-radius:24px;border:1px solid var(--border);background:var(--surface);font-size:15px;font-weight:600;color:var(--text-2);transition:all .2s;min-height:44px}
+  .news-tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .news-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;cursor:pointer}
+  .news-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+  .news-card .cover{height:170px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:18px;padding:0 16px;text-align:center}
+  .news-card .body{padding:18px}
+  .news-card .body .date{font-size:12px;color:var(--muted)}
+  .news-card .body h4{font-size:17px;margin:6px 0 8px}
+  .news-card .body p{font-size:13px;color:var(--text-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* ============ 案例 / 招聘 / 关于 ============ */
+  .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .case-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .case-card .cover{height:200px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:20px;font-weight:700}
+  .case-card .body{padding:18px}
+  .case-card .body p{font-size:14px;color:var(--text-2);margin-top:6px}
+  .recruit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  .recruit-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+  .recruit-card h3{font-size:22px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .recruit-card h3 svg{width:24px;height:24px;color:var(--primary)}
+  .recruit-card p{color:var(--text-2);margin-bottom:10px}
+  .recruit-card ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .recruit-card li{display:flex;gap:10px;font-size:14px;color:var(--text-2)}
+  .recruit-card li svg{width:18px;height:18px;color:var(--accent);flex-shrink:0;margin-top:4px}
+  .placeholder-box{background:var(--primary-soft);border:1px dashed var(--primary);border-radius:var(--radius);padding:48px;text-align:center;color:var(--primary-dark)}
+  .placeholder-box svg{width:48px;height:48px;margin:0 auto 16px;color:var(--primary)}
+  .placeholder-box h3{margin-bottom:8px}
+  .placeholder-box p{font-size:14px;color:var(--text-2);max-width:520px;margin:0 auto}
+
+  /* 发展历程时间轴 */
+  .timeline{position:relative;max-width:760px;margin:0 auto;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--border)}
+  .tl-item{position:relative;padding:0 0 34px 24px}
+  .tl-item::before{content:"";position:absolute;left:-26px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--primary);border:3px solid var(--bg);box-shadow:0 0 0 3px var(--primary-soft)}
+  .tl-item .year{font-family:var(--serif);font-size:22px;color:var(--primary);font-weight:700}
+  .tl-item h4{font-size:18px;margin:2px 0 6px}
+  .tl-item p{color:var(--text-2);font-size:14px}
+
+  /* 品牌介绍 */
+  .brand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}
+  .brand-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+  .brand-card .ic{width:48px;height:48px;border-radius:12px;background:var(--primary-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .brand-card .ic svg{width:26px;height:26px;color:var(--primary)}
+  .brand-card h4{font-size:18px;margin-bottom:8px}
+  .brand-card p{font-size:14px;color:var(--text-2)}
+
+  /* 联系我们 + 留言表单 */
+  .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start}
+  .contact-info{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+  .contact-info .row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+  .contact-info .row:last-child{border-bottom:none}
+  .contact-info .row svg{width:22px;height:22px;color:var(--primary);flex-shrink:0;margin-top:3px}
+  .contact-info .row .k{font-size:13px;color:var(--muted)}
+  .contact-info .row .v{font-size:15px;color:var(--text);font-weight:500}
+  .map-box{height:200px;margin-top:18px;border-radius:var(--radius);background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);border:1px solid var(--border)}
+  .map-box svg{width:40px;height:40px;color:var(--primary);margin-bottom:8px}
+  .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+  .form-card h3{font-size:22px;margin-bottom:6px}
+  .form-card .hint{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+  .form-row.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form-row label{font-size:14px;color:var(--text);font-weight:600}
+  .form-row label .req{color:var(--danger)}
+  .form-row input,.form-row select,.form-row textarea{font-family:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);width:100%}
+  .form-row textarea{min-height:110px;resize:vertical}
+  .form-row input:focus,.form-row select:focus,.form-row textarea:focus{outline:none;border-color:var(--primary)}
+  .privacy{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--muted);margin-bottom:18px}
+  .privacy input{margin-top:3px;width:16px;height:16px}
+
+  /* ============ 页脚 ============ */
+  footer{background:var(--primary-dark);color:rgba(255,255,255,.82);padding:48px 0 24px;margin-top:20px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+  footer h4{color:#fff;font-size:16px;margin-bottom:14px;font-family:var(--sans)}
+  footer a{display:block;color:rgba(255,255,255,.72);font-size:14px;padding:4px 0;transition:color .2s}
+  footer a:hover{color:var(--gold)}
+  .foot-brand{font-family:var(--serif);font-size:24px;color:#fff;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .foot-brand .logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--gold));display:flex;align-items:center;justify-content:center}
+  .foot-brand .logo svg{width:18px;height:18px;color:#fff}
+  footer .desc{font-size:14px;color:rgba(255,255,255,.65);max-width:280px}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:32px;padding-top:18px;text-align:center;font-size:13px;color:rgba(255,255,255,.55)}
+
+  /* ============ 模态 ============ */
+  .modal-mask{position:fixed;inset:0;background:rgba(42,36,32,.5);backdrop-filter:blur(2px);z-index:var(--z-modal);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .modal-mask.show{display:flex}
+  .modal{background:var(--surface);border-radius:var(--radius);max-width:760px;width:100%;box-shadow:var(--shadow-lg);animation:pop .25s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-bottom:1px solid var(--border)}
+  .modal-head h3{font-size:22px}
+  .modal-close{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background .2s}
+  .modal-close:hover{background:var(--surface-2)}
+  .modal-body{padding:26px}
+  .gallery{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:22px}
+  .gallery .g{height:120px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .spec{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+  .spec .item{background:var(--surface-2);border-radius:10px;padding:14px}
+  .spec .item .k{font-size:12px;color:var(--muted)}
+  .spec .item .v{font-size:15px;color:var(--text);font-weight:600;margin-top:2px}
+  .detail-text{color:var(--text-2);font-size:15px}
+  .detail-text p{margin-bottom:12px}
+  .news-detail .meta{display:flex;gap:14px;color:var(--muted);font-size:13px;margin-bottom:18px}
+  .news-detail .cover{height:240px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:22px;margin-bottom:20px}
+
+  /* ============ Toast ============ */
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;padding:14px 24px;border-radius:10px;font-size:14px;opacity:0;transition:all .3s;z-index:90;box-shadow:var(--shadow-lg);pointer-events:none}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ============ 移动端 ============ */
+  @media(max-width:1024px){
+    .series-grid,.product-grid,.news-grid,.case-grid,.brand-grid{grid-template-columns:repeat(2,1fr)}
+    .strength-grid,.contact-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:768px){
+    .section{padding:48px 0}
+    .nav-cta .btn-quote{display:none}
+    .hamburger{display:flex}
+    nav.menu{
+      position:fixed;top:68px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);
+      flex-direction:column;align-items:stretch;padding:12px;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;box-shadow:var(--shadow-lg)
+    }
+    nav.menu.open{max-height:90vh;overflow:auto}
+    .menu>li{width:100%}
+    .menu>li>a,.menu>li>button{width:100%;justify-content:space-between}
+    .dropdown{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:none;padding:0 0 0 16px;min-width:auto}
+    .dropdown a{padding:10px 14px}
+    .hero{height:440px}
+    .slide .content h1{font-size:32px}
+    .stats,.form-row.two{grid-template-columns:1fr}
+    .series-grid,.product-grid,.news-grid,.case-grid,.recruit-grid,.brand-grid{grid-template-columns:1fr}
+    .spec{grid-template-columns:1fr}
+    .gallery{grid-template-columns:1fr 1fr}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body data-page-node-id="jPNojVFYIADE9ei29l79l7">
+
+<!-- ============ 顶部导航（严格按 PRD 3.1） ============ -->
+<header class="nav" data-page-node-id="f9bKTB9xzbTHwUNHlZ9lPf">
+  <div class="nav-inner" data-page-node-id="WB0Kzm4VYX6fFR6x8y9CxX">
+    <a href="#home" class="brand" data-page-node-id="knhbHm9MenMSGkA59EqSGs">
+      <span class="logo" data-page-node-id="WFIzF559RAIlHlHGLQcyAA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="35gynBu7afPnNKvmjNrj6m"><path d="M3 11l9-7 9 7" data-page-node-id="udIHgMvgf7RcR3NuSh8yqY"/><path d="M5 10v10h14V10" data-page-node-id="76MrVUz1gw4WNVJYHwP8Io"/><path d="M9 20v-6h6v6" data-page-node-id="7zNoOvJC9WRk8IVExGsLrV"/></svg></span>
+      <span data-page-node-id="Sl5r89MfVoCWLtklcpd2xn">栖木家居<small data-page-node-id="ApFsmVSP1tVQwUCvH73S8A">HEMU HOME</small></span>
+    </a>
+    <nav data-page-node-id="Z20qeg7wYrppKgesLee6ZT">
+      <ul class="menu" id="menu" data-page-node-id="E3YUekHX4u47ExGCEq1xSl">
+        <li data-page-node-id="3iNkicculExNiNr7nddfhh"><a href="#home" data-nav data-page-node-id="5NRhukeQtt05a4SdO3Cr4I">首页</a></li>
+        <li data-page-node-id="guMoOEpcOJBe0tiTFGafnY">
+          <button aria-haspopup="true" aria-expanded="false" data-page-node-id="wzFWS9KdxTWFkgcy7s8C7J">产品 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="V09bAlqLmMoZiK5yN6FDwH"><path d="M6 9l6 6 6-6" data-page-node-id="RYDIZlB8Wv5TgCHbcM3lfL"/></svg></button>
+          <div class="dropdown" data-page-node-id="mv5HZBpKHBH1wdOFVIS6JU">
+            <a href="#products" data-nav data-page-node-id="fIO6oTeiAs2OJzcY6ZppwE">产品中心</a>
+            <a href="#cases" data-nav data-page-node-id="ok2EKcOfUnHDYX5OimKy81">新案例展示 <span class="tag" data-page-node-id="CHU6xP1cRLkKgp18DiS851">静态</span></a>
+          </div>
+        </li>
+        <li data-page-node-id="nQngp4GDakMOYdsgGeuMPn">
+          <button aria-haspopup="true" aria-expanded="false" data-page-node-id="aIh2mtxIKoRCdxfAvgbdhA">新闻 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="tt2FsyFhVEvfSAuvAx7qlx"><path d="M6 9l6 6 6-6" data-page-node-id="BrYaZxWQzmd0J1uynrl6n9"/></svg></button>
+          <div class="dropdown" data-page-node-id="5S6mFPfNAhFgcRYrEZkuVe">
+            <a href="#news-company" data-nav data-page-node-id="fX8jzaPtxIGWkVkCsl5bWO">企业新闻</a>
+            <a href="#news-industry" data-nav data-page-node-id="imBzjV5QrDdqpvBIuIz9SX">行业资讯</a>
+          </div>
+        </li>
+        <li data-page-node-id="AjGmtqDGECIq2zObcl4ONg">
+          <button aria-haspopup="true" aria-expanded="false" data-page-node-id="3UAxziw7345JolSGDuBE72">招聘入口 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="2kT6lTuywarGDVuSqkWAHk"><path d="M6 9l6 6 6-6" data-page-node-id="PDqj0NzkjBW4Cdu1gmftIJ"/></svg></button>
+          <div class="dropdown" data-page-node-id="ABghxVHAmNJHshJL5J5M2y">
+            <a href="#recruit-social" data-nav data-page-node-id="2FvSINsRg1ipYAxwk1ZbDg">社会招聘 <span class="tag" data-page-node-id="UQe7surY98Xue0S5UonbSi"></span></a>
+            <a href="#recruit-campus" data-nav data-page-node-id="t8iSKik1QclcrhVD4F57nD">校园招聘 <span class="tag" data-page-node-id="zaYIajTcudiV3rmky5qFnH"></span></a>
+          </div>
+        </li>
+        <li data-page-node-id="jkInZE8lXxpbDBYfYw4VIG">
+          <button aria-haspopup="true" aria-expanded="false" data-page-node-id="dbYbSMLctKA5dQuBqAfV9d">关于我们 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="uKtQY1eWrCel4t7tXZdQ85"><path d="M6 9l6 6 6-6" data-page-node-id="6VnfAuAGizLx0ExO6TLjng"/></svg></button>
+          <div class="dropdown" data-page-node-id="k6H1mGwSvQ4KzZRN15Auct">
+            <a href="#about-tp" data-nav data-page-node-id="OlTq2YH1jDbZ7QklQA0cy0">关于TP <span class="tag" data-page-node-id="jd7mDI5GaUUoLS2Q9mbM0t">占位</span></a>
+            <a href="#history" data-nav data-page-node-id="sqQ5knpCf8GOIFodvW1omg">发展历程</a>
+            <a href="#brand" data-nav data-page-node-id="hheIe26HTDscCq7IjXLAS6">品牌介绍</a>
+            <a href="#contact" data-nav data-page-node-id="IcLiLd6o8zuzUXxCyMVCPS">联系我们</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="nav-cta" data-page-node-id="gNdkQo7DEBiYeg5mmEWYO3">
+      <a href="#contact" class="btn-quote cursor-pointer" data-page-node-id="Ca3kBcmlHh7w4RgAFFFGSw">留言 / 询价</a>
+      <button class="hamburger" id="hamburger" aria-label="菜单" data-page-node-id="irG9n9JvTtSIAH2UQ3o9BP">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="lSJzKXCzllOPbNEa8UOvG0"><path d="M4 6h16M4 12h16M4 18h16" data-page-node-id="QNtArdDSLhYBy1cLlTC8Fk"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="app" data-page-node-id="QXVu1mrx75FRFpoEdudXvC"><!-- 由各视图渲染 --></main>
+
+<!-- ============ 页脚 ============ -->
+<footer data-page-node-id="1VVdxIkYR6y3r5JzFcF4TE">
+  <div class="wrap foot-grid" data-page-node-id="K3GBWQg6XOQ1Bgb1GnTpTl">
+    <div data-page-node-id="F2UalEtJ00Pw64M0vc6wxu">
+      <div class="foot-brand" data-page-node-id="SgKNTLhIgZJeQQ15KRjp5a"><span class="logo" data-page-node-id="mxHrwDBy2aBcWHyzMpzGpl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-page-node-id="iFvYkzhUgH1lANyuR5vquw"><path d="M3 11l9-7 9 7" data-page-node-id="jUKQxM42zAKWLZTie01Gzk"/><path d="M5 10v10h14V10" data-page-node-id="vrnu7fMhIruQQ75hJRx0Mb"/></svg></span>栖木家居</div>
+      <p class="desc" data-page-node-id="R8Tzp7bai7yQ7UwCC6TwsP">专注企业家居全案定制，以匠心木作承载东方生活美学。品牌实力展示 · 产品案例 · 新闻资讯 · 招商合作。</p>
+    </div>
+    <div data-page-node-id="HYirMIe1IVbXddxKRQ5Z52">
+      <h4 data-page-node-id="D6tJEudTUz9vWTS8n2aBnm">产品</h4>
+      <a href="#products" data-nav data-page-node-id="wg3BqHcubWGDReZYemzDEV">产品中心</a>
+      <a href="#cases" data-nav data-page-node-id="wd4u2nuCmTcc2lpMERAiMV">新案例展示</a>
+      <a href="#brand" data-nav data-page-node-id="lF2R7CDDO3T31uPVrA7cyo">品牌介绍</a>
+    </div>
+    <div data-page-node-id="laZrjTwqs9iSKbjSCZ6NvA">
+      <h4 data-page-node-id="IEDFI0QQsnQgnXwLZNPfmc">资讯</h4>
+      <a href="#news-company" data-nav data-page-node-id="bI8UERAJtMawLlxAKPrCU6">企业新闻</a>
+      <a href="#news-industry" data-nav data-page-node-id="Wes8nR2zRKG9SLVzVfDado">行业资讯</a>
+      <a href="#recruit-social" data-nav data-page-node-id="iuUrBlaDHYr4VEATW7cW0P">社会招聘</a>
+    </div>
+    <div data-page-node-id="B0UEHYIjKzZSzjEV48aUeb">
+      <h4 data-page-node-id="BW8Zdu2EwtCIIOjQXhn4r4">联系</h4>
+      <a href="#contact" data-nav data-page-node-id="SknI5EuJlaXZSB1DtGepZN">联系我们</a>
+      <a href="#history" data-nav data-page-node-id="XVpYaWiOKBntCaP51j7crn">发展历程</a>
+      <a href="#about-tp" data-nav data-page-node-id="eAiG1DrlHJCGckfJVpQHl7">关于TP</a>
+    </div>
+  </div>
+  <div class="wrap foot-bottom" data-page-node-id="8bvNTkiNyw3BK6IO5qamru">© 2026 栖木家居（企业）有限公司 · 客服热线 400-888-0000 · 邮箱 service@hemuhome.com<br data-page-node-id="T7lSNcZpvGnZzm5chL16A5"/>粤ICP备00000000号 · 本页面为产品原型演示</div>
+</footer>
+
+<!-- 模态容器 -->
+<div class="modal-mask" id="modalMask" data-page-node-id="cLX9JhuC0ptiGydWEnCfmO"><div class="modal" id="modalBox" data-page-node-id="EoNcy1TmtAsyMgcx37ntQk"></div></div>
+<div class="toast" id="toast" data-page-node-id="ekqBJeqtRkPE9ofnrc0Sw0"></div>
+
+<script>
+/* ====================== 数据（模拟后端 API） ====================== */
+const SERIES = [
+  {id:1,name:'胡桃禮',desc:'沉稳胡桃 · 东方礼序',c1:'#7D5A3C',c2:'#5C4128'},
+  {id:2,name:'如意春',desc:'轻暖原木 · 春日生机',c1:'#B08A5E',c2:'#8B5E3C'},
+  {id:3,name:'禧YUE',desc:'绯金喜庆 · 雅致新婚',c1:'#A8554E',c2:'#7E3B36'},
+  {id:4,name:'柏悦',desc:'硬朗黑柏 · 现代简奢',c1:'#4A4A4A',c2:'#2A2A2A'},
+  {id:5,name:'蓝宝嘉',desc:'靛蓝绒面 · 轻奢质感',c1:'#3F5E8F',c2:'#2B426B'},
+  {id:6,name:'办公家具',desc:'高效办公 · 人体工学',c1:'#5B7C7A',c2:'#3F5A58'},
+  {id:7,name:'软体',desc:'舒适软包 · 居家慵懒',c1:'#C2855B',c2:'#9A663E'},
+];
+const SPACES = ['卧室','客厅','餐厅','书房','茶室','办公'];
+const GRADS = [['#7D5A3C','#5C4128'],['#B08A5E','#8B5E3C'],['#A8554E','#7E3B36'],['#4A4A4A','#2A2A2A'],['#3F5E8F','#2B426B'],['#5B7C7A','#3F5A58'],['#C2855B','#9A663E'],['#8A6FA8','#5E4A78']];
+function grad(i){return `linear-gradient(135deg,${GRADS[i%GRADS.length][0]},${GRADS[i%GRADS.length][1]})`}
+
+const PRODUCTS = Array.from({length:12},(_,i)=>{
+  const s = SERIES[i%SERIES.length];
+  const space = SPACES[i%SPACES.length];
+  const names=['云栖衣柜','听松床','如意餐桌','知竹书椅','静庐沙发','栖云茶台','墨白边几','和悦餐边柜','拾光斗柜','观山电视柜','榻眠软床','锦书书桌'];
+  const materials=['北美黑胡桃木','白橡木','樱桃木','岩板+金属','科技布','头层牛皮'];
+  const styles=['新中式','现代简约','轻奢','北欧','侘寂'];
+  return {
+    id:i+1,name:names[i],series:s.name,space,
+    material:materials[i%materials.length],style:styles[i%styles.length],
+    size:`${120+i*4} × ${60+i*2} × ${45+i} cm`,
+    desc:`「${names[i]}」取自${s.name}系列设计语言，选用${materials[i%materials.length]}，以${styles[i%styles.length]}风格呈现。榫卯结构稳固耐用，表面采用环保植物漆，触感温润，适合${space}空间陈列，兼顾实用与东方美学。`
+  };
+});
+
+const NEWS = [
+  {id:1,cat:'company',catName:'企业新闻',title:'栖木家居2026秋季新品发布会圆满落幕',date:'2026-08-28',cover:'#7D5A3C',summary:'以"木述东方"为主题，全新胡桃禮系列正式亮相，现场签约经销商逾百家。',content:'2026年8月28日，栖木家居于总部展厅举办"木述东方"秋季新品发布会。本次发布会正式推出全新胡桃禮系列，延续沉稳胡桃木色与东方礼序设计语言。现场吸引全国300余位经销商到场，达成合作意向逾百项，标志着品牌在高端实木定制领域的进一步突破。'},
+  {id:2,cat:'company',catName:'企业新闻',title:'栖木家居通过ISO9001质量管理体系再认证',date:'2026-07-15',cover:'#5B7C7A',summary:'生产工艺与品控体系获权威机构认可，质量管控再上新台阶。',content:'经第三方认证机构严格审核，栖木家居顺利通过ISO9001质量管理体系再认证。审核涵盖原材料采购、生产制造、成品检验全流程，体现公司对品质的极致追求。'},
+  {id:3,cat:'company',catName:'企业新闻',title:'品牌旗舰体验店落地一线城市核心商圈',date:'2026-06-02',cover:'#A8554E',summary:'超800㎡实景样板间开放，沉浸式体验全屋木作方案。',content:'栖木家居首家城市旗舰体验店正式开业，设置卧室、客厅、茶室等多主题实景样板间，消费者可一站式体验从单品到全屋的搭配方案。'},
+  {id:4,cat:'industry',catName:'行业资讯',title:'2026家居消费趋势：新中式回暖，环保成刚需',date:'2026-08-10',cover:'#3F5E8F',summary:'行业报告显示，东方美学家居搜索量同比增62%，绿色材料受青睐。',content:'据最新行业白皮书，2026年新中式家居风格搜索热度同比上升62%，消费者在关注设计的同时更看重材料环保性与可追溯性。实木、竹木复合材料迎来增长窗口。'},
+  {id:5,cat:'industry',catName:'行业资讯',title:'智能家居与木作家具融合成新赛道',date:'2026-05-20',cover:'#4A4A4A',summary:'传统木作叠加传感与联动，催生"可成长"的居家场景。',content:'智能家居从单品迈向系统化，木质家具厂商开始集成隐藏式走线、无线充电与氛围光，使传统木作具备现代化交互能力，成为行业创新焦点。'},
+  {id:6,cat:'industry',catName:'行业资讯',title:'出口市场洞察：东方生活方式受海外追捧',date:'2026-04-12',cover:'#8A6FA8',summary:'东南亚与欧美市场对中国风家居需求上升，定制化服务是关键。',content:'海外买家对中国风家具兴趣显著提升，注重手工质感与文化叙事。具备柔性定制能力的品牌更易获得溢价与复购。'},
+];
+
+const CASES = [
+  {id:1,title:'杭州·云栖别墅全屋木作',cover:'#7D5A3C',intro:'以胡桃禮系列贯穿客餐厅与书房，沉稳木色勾勒东方府邸气韵。'},
+  {id:2,title:'苏州·平江路文创民宿',cover:'#A8554E',intro:'如意春系列软装点缀，原木暖调呼应水乡慢生活。'},
+  {id:3,title:'深圳·海岸办公总部',cover:'#3F5E8F',intro:'办公家具系列定制工位与会议系统，提升空间效率与质感。'},
+];
+
+/* ====================== 工具 ====================== */
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2600)}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+/* ====================== 视图渲染 ====================== */
+const app = $('#app');
+
+function renderHome(){
+  const slides = [
+    {k:'HEMU HOME',h:'以木作，栖居东方',p:'专注企业家居全案定制，承载东方生活美学与当代匠心。',c1:'#7D5A3C',c2:'#5C4128',link:'#products'},
+    {k:'NEW ARRIVAL',h:'胡桃禮系列 全新上市',p:'沉稳胡桃木色，东方礼序设计语言，邀您亲鉴。',c1:'#A8554E',c2:'#7E3B36',link:'#products'},
+    {k:'B2B',h:'诚邀城市合伙人',p:'全国招商进行中，为经销商提供全案赋能与定制支持。',c1:'#3F5E8F',c2:'#2B426B',link:'#contact'},
+  ];
+  const heroSlides = slides.map((s,i)=>`
+    <div class="slide ${i===0?'active':''}" data-slide="${i}">
+      <div class="bg" style="background:linear-gradient(135deg,${s.c1},${s.c2})"></div>
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="kicker">${s.k}</div>
+        <h1>${s.h}</h1>
+        <p>${s.p}</p>
+        <a href="${s.link}" class="btn cursor-pointer" data-nav>了解更多 →</a>
+      </div>
+    </div>`).join('');
+  const dots = slides.map((_,i)=>`<button class="${i===0?'active':''}" data-dot="${i}" aria-label="第${i+1}张"></button>`).join('');
+  app.innerHTML = `
+  <section class="hero">
+    ${heroSlides}
+    <button class="hero-arrow prev" data-arrow="-1" aria-label="上一张"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="hero-arrow next" data-arrow="1" aria-label="下一张"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+    <div class="hero-dots">${dots}</div>
+  </section>
+
+  <section class="section strength">
+    <div class="wrap strength-grid">
+      <div>
+        <div class="eyebrow" style="color:var(--accent);letter-spacing:3px;font-size:13px;font-weight:600">BRAND STRENGTH</div>
+        <h2>十八年匠心木作，实力筑底信任</h2>
+        <p>栖木家居集研发、制造、全案设计于一体，以绿色制造与柔性定制为核心能力，为经销商与采购方提供稳定可靠的家居产品与交付。</p>
+        <p>从单品到全屋，从标准到定制，我们让东方木作美学可落地、可规模、可传承。</p>
+        <a href="#brand" class="btn btn-ghost cursor-pointer" data-nav style="margin-top:8px">了解品牌 →</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num">2008</div><div class="lbl">成立年份</div></div>
+        <div class="stat"><div class="num">50,000㎡</div><div class="lbl">现代化厂区</div></div>
+        <div class="stat"><div class="num">12</div><div class="lbl">智能生产线</div></div>
+        <div class="stat"><div class="num">3000+</div><div class="lbl">服务客户</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">PRODUCT SERIES</div><h2>产品系列入口</h2><p>七大系列产品覆盖全屋空间，点击进入产品中心浏览全部 SKU。</p></div>
+      <div class="series-grid">
+        ${SERIES.map((s,i)=>`
+          <div class="series-card cursor-pointer" data-series="${s.id}">
+            <div class="thumb" style="background:linear-gradient(135deg,${s.c1},${s.c2})">${s.name}</div>
+            <div class="body"><h4>${s.name}</h4><span>${s.desc}</span></div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--surface-2)">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">NEWS</div><h2>新闻动态</h2><p>最新企业新闻与行业资讯，洞察品牌与行业脉搏。</p></div>
+      <div class="news-grid">
+        ${NEWS.slice(0,3).map(n=>`
+          <div class="news-card cursor-pointer" data-news="${n.id}">
+            <div class="cover" style="background:linear-gradient(135deg,${n.cover},${shade(n.cover)})">${n.catName}</div>
+            <div class="body"><div class="date">${n.date}</div><h4>${n.title}</h4><p>${n.summary}</p></div>
+          </div>`).join('')}
+      </div>
+      <div style="text-align:center;margin-top:30px"><a href="#news-company" class="btn btn-ghost cursor-pointer" data-nav>查看全部新闻 →</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">JOIN US</div><h2>招商 · 招聘入口</h2><p>成为城市合伙人，或加入我们的团队，共筑东方木作家居事业。</p></div>
+      <div class="recruit-grid">
+        <div class="recruit-card">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>城市招商合作</h3>
+          <p>面向全国招募经销商与 project 合伙人，提供全案设计、定制生产与门店赋能支持。</p>
+          <a href="#contact" class="btn btn-primary cursor-pointer" data-nav>立即咨询 →</a>
+        </div>
+        <div class="recruit-card">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>人才招聘</h3>
+          <p>设计、研发、品牌、运营等多岗位开放，欢迎有热爱木作与生活美学的你。</p>
+          <a href="#recruit-social" class="btn btn-ghost cursor-pointer" data-nav>查看职位 →</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+  initHero();
+  // 交互绑定
+  $$('[data-series]',app).forEach(el=>el.onclick=()=>{location.hash='#products';setTimeout(()=>filterBySeries(+el.dataset.series),50)});
+  $$('[data-news]',app).forEach(el=>el.onclick=()=>openNewsDetail(+el.dataset.news));
+}
+
+function shade(hex){const c=hex.replace('#','');const n=parseInt(c,16);let r=(n>>16)-30,g=((n>>8)&255)-30,b=(n&255)-30;r=Math.max(0,r);g=Math.max(0,g);b=Math.max(0,b);return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+
+let heroTimer;
+function initHero(){
+  const slides=$$('.slide',app),dots=$$('[data-dot]',app);
+  let cur=0;
+  function go(i){cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));dots.forEach((d,k)=>d.classList.toggle('active',k===cur))}
+  function next(){go(cur+1)}
+  function start(){if(!matchMedia('(prefers-reduced-motion:reduce)').matches)heroTimer=setInterval(next,5000)}
+  function stop(){clearInterval(heroTimer)}
+  $$('[data-arrow]',app).forEach(b=>b.onclick=()=>{go(cur+(+b.dataset.arrow));stop();start()});
+  dots.forEach(d=>d.onclick=()=>{go(+d.dataset.dot);stop();start()});
+  const hero=$('.hero',app);hero.onmouseenter=stop;hero.onmouseleave=start;start();
+}
+
+function renderProducts(activeCat){
+  app.innerHTML = `
+  <section class="section" style="padding-top:96px">
+    <div class="wrap">
+      <div class="sec-head" style="text-align:left;margin-bottom:24px">
+        <div class="eyebrow">PRODUCT CENTER</div><h2>产品中心</h2>
+        <p>按系列与适用空间筛选，关键词检索；产品详情不展示价格。</p>
+      </div>
+      <div class="filters">
+        <div class="field">
+          <label for="kw">关键词</label>
+          <input id="kw" type="text" placeholder="搜索产品名称…" />
+        </div>
+        <div class="field">
+          <label>适用空间</label>
+          <div class="chips" id="spaceChips">
+            <button class="chip active" data-space="">全部</button>
+            ${SPACES.map(s=>`<button class="chip" data-space="${s}">${s}</button>`).join('')}
+          </div>
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn btn-primary cursor-pointer" id="searchBtn">搜索</button>
+        </div>
+      </div>
+      <div class="product-grid" id="pgrid"></div>
+      <div class="pager" id="pager"></div>
+    </div>
+  </section>`;
+  window._prodFilter={kw:'',space:'',series:0,page:1,pageSize:6};
+  $$('[data-space]',app).forEach(c=>c.onclick=()=>{
+    $$('[data-space]',app).forEach(x=>x.classList.remove('active'));c.classList.add('active');
+    window._prodFilter.space=c.dataset.space;renderProductList();
+  });
+  $('#kw',app).oninput=e=>window._prodFilter.kw=e.target.value;
+  $('#searchBtn',app).onclick=()=>renderProductList();
+  $('#kw',app).onkeydown=e=>{if(e.key==='Enter')renderProductList()};
+  renderProductList();
+}
+function filterBySeries(id){
+  const sel=$$('[data-series-filter]',app); // 兼容
+  window._prodFilter=window._prodFilter||{kw:'',space:'',series:0,page:1,pageSize:6};
+  window._prodFilter.series=id;window._prodFilter.page=1;renderProductList();
+  toast('已按系列筛选：'+SERIES.find(s=>s.id===id).name);
+}
+function renderProductList(){
+  const f=window._prodFilter;
+  let list=PRODUCTS.filter(p=>
+    (!f.kw||p.name.includes(f.kw)||p.series.includes(f.kw)) &&
+    (!f.space||p.space===f.space) &&
+    (!f.series||p.series===SERIES.find(s=>s.id===f.series).name)
+  );
+  const total=Math.ceil(list.length/f.pageSize)||1;
+  f.page=Math.min(f.page,total);
+  const pageItems=list.slice((f.page-1)*f.pageSize,f.page*f.pageSize);
+  const grid=$('#pgrid',app);
+  if(!pageItems.length){grid.innerHTML='<div class="empty">未找到匹配的产品，试试其他筛选条件。</div>';$('#pager',app).innerHTML='';return}
+  grid.innerHTML=pageItems.map((p,i)=>`
+    <div class="product-card cursor-pointer" data-pid="${p.id}">
+      <div class="cover" style="background:${grad(p.id)}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+      </div>
+      <div class="body">
+        <h4>${p.name}</h4>
+        <div class="meta"><span>${p.series}</span><span>${p.space}</span></div>
+        <div class="view">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      </div>
+    </div>`).join('');
+  $$('[data-pid]',app).forEach(el=>el.onclick=()=>openProductDetail(+el.dataset.pid));
+  // 分页
+  let pager='';
+  for(let i=1;i<=total;i++)pager+=`<button class="${i===f.page?'active':''}" data-pg="${i}">${i}</button>`;
+  $('#pager',app).innerHTML=pager;
+  $$('[data-pg]',app).forEach(b=>b.onclick=()=>{f.page=+b.dataset.pg;renderProductList();window.scrollTo({top:0,behavior:'smooth'})});
+}
+
+function openProductDetail(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  const box=$('#modalBox');
+  box.innerHTML=`
+    <div class="modal-head"><h3>${p.name}</h3><button class="modal-close" data-close aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="gallery">
+        ${[0,1,2].map(i=>`<div class="g" style="background:${grad(p.id+i)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="40" height="40"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></div>`).join('')}
+      </div>
+      <div class="spec">
+        <div class="item"><div class="k">所属系列</div><div class="v">${p.series}</div></div>
+        <div class="item"><div class="k">适用空间</div><div class="v">${p.space}</div></div>
+        <div class="item"><div class="k">材质</div><div class="v">${p.material}</div></div>
+        <div class="item"><div class="k">尺寸</div><div class="v">${p.size}</div></div>
+        <div class="item"><div class="k">风格</div><div class="v">${p.style}</div></div>
+        <div class="item"><div class="k">价格</div><div class="v" style="color:var(--muted)">暂不展示</div></div>
+      </div>
+      <div class="detail-text"><p>${p.desc}</p></div>
+      <a href="#contact" class="btn btn-primary cursor-pointer" data-nav data-close style="margin-top:8px">对此产品留言 / 询价</a>
+    </div>`;
+  openModal();
+}
+
+function renderCases(){
+  app.innerHTML=`
+  <section class="section" style="padding-top:96px">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">CASES</div><h2>新案例展示</h2><p>精选落地案例（本模块为静态展示，后台不维护）。</p></div>
+      <div class="case-grid">
+        ${CASES.map(c=>`
+          <div class="case-card">
+            <div class="cover" style="background:linear-gradient(135deg,${c.cover},${shade(c.cover)})">${c.title.split('·')[0]}</div>
+            <div class="body"><h4 style="margin-bottom:6px">${c.title}</h4><p>${c.intro}</p></div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderNews(cat){
+  const list=NEWS.filter(n=>n.cat===cat);
+  const title=cat==='company'?'企业新闻':'行业资讯';
+  app.innerHTML=`
+  <section class="section" style="padding-top:96px">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">NEWS</div><h2>${title}</h2><p>按发布时间倒序排列，点击查看正文。</p></div>
+      <div class="news-grid">
+        ${list.map(n=>`
+          <div class="news-card cursor-pointer" data-news="${n.id}">
+            <div class="cover" style="background:linear-gradient(135deg,${n.cover},${shade(n.cover)})">${n.catName}</div>
+            <div class="body"><div class="date">${n.date}</div><h4>${n.title}</h4><p>${n.summary}</p></div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+  $$('[data-news]',app).forEach(el=>el.onclick=()=>openNewsDetail(+el.dataset.news));
+}
+function openNewsDetail(id){
+  const n=NEWS.find(x=>x.id===id);
+  $('#modalBox').innerHTML=`
+    <div class="modal-head"><h3>${n.title}</h3><button class="modal-close" data-close aria-label="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body news-detail">
+      <div class="cover" style="background:linear-gradient(135deg,${n.cover},${shade(n.cover)})">${n.catName}</div>
+      <div class="meta"><span>来源：${n.catName}</span><span>发布：${n.date}</span></div>
+      <div class="detail-text"><p>${n.content}</p><p>本文为原型演示内容，实际发布以官网为准。</p></div>
+    </div>`;
+  openModal();
+}
+
+function renderRecruit(type){
+  const isSocial=type==='social';
+  app.innerHTML=`
+  <section class="section" style="padding-top:96px">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">CAREERS</div><h2>${isSocial?'社会招聘':'校园招聘'}</h2><p>本页为静态展示，后台不维护职位、不接收简历投递。</p></div>
+      <div class="recruit-grid">
+        <div class="recruit-card">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>岗位方向</h3>
+          <ul>
+            ${(isSocial?['全案设计师','生产工程师','品牌策划','城市经理','定制顾问']:['管培生（设计/运营）','实习设计师','电商运营实习','内容策划实习']).map(x=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>${x}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="recruit-card">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>我们提供</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>有竞争力的薪酬与项目奖金</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>系统的木作与设计培训体系</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>清晰的双通道晋升路径</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>详情请咨询 hr@hemuhome.com</li>
+          </ul>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:30px;color:var(--muted)">提示：招聘信息以后期正式发布为准，本原型仅作页面结构演示。</div>
+    </div>
+  </section>`;
+}
+
+function renderAboutTP(){
+  app.innerHTML=`
+  <section class="section" style="padding-top:120px">
+    <div class="wrap">
+      <div class="placeholder-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h6M8 17h4"/></svg>
+        <h3>关于TP（预留占位页）</h3>
+        <p>本页为本期预留占位页面，暂未填充业务内容，后台无维护入口。后续迭代将补充实际内容。</p>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderHistory(){
+  const items=[['2008','品牌创立','栖木家居成立，专注实木家具研发与制造。'],['2013','智造升级','引入数控产线，建立现代化厂区。'],['2018','全案定制','推出全屋木作定制服务，覆盖多空间场景。'],['2021','绿色制造','全面采用环保植物漆与可追溯木材。'],['2024','品牌焕新','胡桃禮等七大系列发布，东方美学体系成型。'],['2026','全国布局','启动城市合伙人计划，渠道网络加速扩张。']];
+  app.innerHTML=`
+  <section class="section" style="padding-top:96px">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">HISTORY</div><h2>发展历程</h2><p>以时间为轴，记录栖木家居的关键里程碑。</p></div>
+      <div class="timeline">
+        ${items.map(it=>`
+          <div class="tl-item"><div class="year">${it[0]}</div><h4>${it[1]}</h4><p>${it[2]}</p></div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderBrand(){
+  app.innerHTML=`
+  <section class="section" style="padding-top:96px">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">OUR BRAND</div><h2>品牌介绍</h2><p>东方生活美学的当代木作表达。</p></div>
+      <div style="max-width:760px;margin:0 auto;color:var(--text-2);font-size:16px">
+        <p style="margin-bottom:16px">栖木家居相信，家具不仅是器物，更是生活方式的容器。我们以东方木作工艺为根，融合当代设计语言，让每一件产品都承载温润的手感与安静的气质。</p>
+        <p>从选材到成型，我们坚持绿色制造与可追溯供应链，让"美"与"责任"并行。</p>
+      </div>
+      <div class="brand-grid">
+        <div class="brand-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5 5 2 7-7-4-7 4 2-7-5-5h7z"/></svg></div><h4>东方美学</h4><p>以新中式设计语言，转译传统木作的礼序与留白。</p></div>
+        <div class="brand-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M12 3v18"/></svg></div><h4>匠心工艺</h4><p>榫卯结构与现代智造结合，兼顾稳固与温润触感。</p></div>
+        <div class="brand-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z"/><path d="M3 12h18"/></svg></div><h4>绿色责任</h4><p>环保植物漆、可追溯木材，让家更安心。</p></div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderContact(){
+  app.innerHTML=`
+  <section class="section" style="padding-top:96px">
+    <div class="wrap">
+      <div class="sec-head"><div class="eyebrow">CONTACT</div><h2>联系我们</h2><p>留下您的留言或询价需求，我们将及时与您联系。</p></div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><div><div class="k">公司地址</div><div class="v">广东省佛山市禅城区家居大道 88 号</div></div></div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"/></svg><div><div class="k">联系电话</div><div class="v">400-888-0000</div></div></div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 6 8-6"/></svg><div><div class="k">电子邮箱</div><div class="v">service@hemuhome.com</div></div></div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg><div><div class="k">社交账号</div><div class="v">微信 / 微博：栖木家居</div></div></div>
+          <div class="map-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>地图嵌入位（来自站点配置）</div>
+        </div>
+        <div class="form-card">
+          <h3>留言 / 询价</h3>
+          <div class="hint">提交即视为同意我们按《隐私政策》收集并处理您的信息（姓名、电话为必填，邮箱选填）。</div>
+          <form id="msgForm">
+            <div class="form-row two">
+              <div class="form-row"><label>姓名 <span class="req">*</span></label><input name="name" required placeholder="您的称呼" /></div>
+              <div class="form-row"><label>电话 <span class="req">*</span></label><input name="phone" required placeholder="联系电话" pattern="\\d{6,}" /></div>
+            </div>
+            <div class="form-row"><label>邮箱（选填）</label><input name="email" type="email" placeholder="可选" /></div>
+            <div class="form-row two">
+              <div class="form-row"><label>类型</label><select name="type"><option value="留言">留言</option><option value="询价">询价</option></select></div>
+              <div class="form-row"><label>关联产品（选填）</label><select name="product_id"><option value="">不关联</option>${PRODUCTS.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>
+            </div>
+            <div class="form-row"><label>内容 <span class="req">*</span></label><textarea name="content" required placeholder="请描述您的需求…"></textarea></div>
+            <label class="privacy"><input type="checkbox" required /><span>我已阅读并同意《隐私政策》，知悉个人信息将按最小必要原则处理。</span></label>
+            <button type="submit" class="btn btn-primary cursor-pointer" style="width:100%;justify-content:center">提交留言 / 询价</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>`;
+  $('#msgForm',app).onsubmit=e=>{
+    e.preventDefault();
+    const d=Object.fromEntries(new FormData(e.target).entries());
+    console.log('提交留言/询价（将进入后台「留言/询价管理」）：',d);
+    toast('提交成功！我们将尽快与您联系（已在后台留言管理中生成记录）');
+    e.target.reset();
+  };
+}
+
+/* ====================== 路由 ====================== */
+const ROUTES={
+  '#home':renderHome,
+  '#products':()=>renderProducts(),
+  '#cases':renderCases,
+  '#news-company':()=>renderNews('company'),
+  '#news-industry':()=>renderNews('industry'),
+  '#recruit-social':()=>renderRecruit('social'),
+  '#recruit-campus':()=>renderRecruit('campus'),
+  '#about-tp':renderAboutTP,
+  '#history':renderHistory,
+  '#brand':renderBrand,
+  '#contact':renderContact,
+};
+function router(){
+  const hash=location.hash||'#home';
+  (ROUTES[hash]||renderHome)();
+  // 高亮当前导航
+  $$('#menu>li').forEach(li=>{
+    const a=li.querySelector('a[data-nav]');
+    const on=a&&a.getAttribute('href')===hash;
+    li.classList.toggle('active',on);
+  });
+  window.scrollTo({top:0});
+  // 关闭移动菜单
+  $('#menu').classList.remove('open');
+}
+window.addEventListener('hashchange',router);
+// 委托：所有带 data-nav 的链接
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-nav]');
+  if(a){const href=a.getAttribute('href');if(href&&href.startsWith('#')){location.hash=href;e.preventDefault();}}
+});
+// 汉堡
+$('#hamburger').onclick=()=>$('#menu').classList.toggle('open');
+// 移动端下拉：点击展开（hover 在触屏不可靠）
+$$('#menu>li>button').forEach(b=>b.onclick=()=>{
+  if(window.innerWidth<=768){const dd=b.nextElementSibling;dd.style.display=dd.style.display==='block'?'':'block';}
+  b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true');
+});
+// 模态
+function openModal(){$('#modalMask').classList.add('show');document.body.style.overflow='hidden'}
+function closeModal(){$('#modalMask').classList.remove('show');document.body.style.overflow=''}
+$('#modalMask').onclick=e=>{if(e.target===$('#modalMask'))closeModal()};
+document.addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+router();
+</script>
+</body>
+</html>

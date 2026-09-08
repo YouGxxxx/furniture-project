@@ -1,0 +1,40 @@
+# ===== 内部助手状态（不提交）=====
+.workbuddy/
+
+# ===== Python 虚拟环境与缓存 =====
+backend/venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# ===== 环境变量与密钥（仅提交 .env.example）=====
+.env
+.env.*
+!.env.example
+
+# ===== 数据库文件（开发期 SQLite）=====
+*.db
+*.sqlite3
+*.sqlite
+
+# ===== 上传/媒体目录 =====
+backend/uploads/
+media/
+
+# ===== Node / 前端 =====
+node_modules/
+dist/
+build/
+.vite/
+*.local
+
+# ===== 编辑器 / 系统 =====
+.vscode/
+.idea/
+.DS_Store
+
+# ===== 日志 =====
+*.log

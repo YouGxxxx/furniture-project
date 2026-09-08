@@ -1,0 +1,73 @@
+<svg viewBox="0 0 680 430" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .cont{fill:#fbfcfe;stroke:#5b6b7b;stroke-width:1.4}
+    .ct{font-family:sans-serif;font-size:12.5px;fill:#1677ff;font-weight:700}
+    .chip{fill:#ffffff;stroke:#9aa7b4;stroke-width:1;rx:5}
+    .ct2{font-family:sans-serif;font-size:10px;fill:#333;text-anchor:middle}
+    .ct3{font-family:sans-serif;font-size:9px;fill:#666;text-anchor:middle}
+    .edge{stroke:#7a8694;stroke-width:1.6;marker-end:url(#ar)}
+    .el{font-family:sans-serif;font-size:9.5px;fill:#444;font-weight:700}
+    .bg{fill:#ffffff}
+  </style>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7a8694"/>
+    </marker>
+  </defs>
+
+  <text x="340" y="22" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#1f1f1f">前台用户端（官网）模块架构图</text>
+
+  <!-- Band A -->
+  <rect class="cont" x="24" y="44" width="632" height="92" rx="8"/>
+  <text class="ct" x="36" y="64">① 页面层 Pages（React Router v6 路由）</text>
+  <g>
+    <rect class="chip" x="40" y="74" width="86" height="26"/><text class="ct2" x="83" y="91">首页</text>
+    <rect class="chip" x="134" y="74" width="86" height="26"/><text class="ct2" x="177" y="91">产品中心</text>
+    <rect class="chip" x="228" y="74" width="86" height="26"/><text class="ct2" x="271" y="91">产品详情</text>
+    <rect class="chip" x="322" y="74" width="86" height="26"/><text class="ct2" x="365" y="91">新闻列表</text>
+    <rect class="chip" x="416" y="74" width="86" height="26"/><text class="ct2" x="459" y="91">新闻详情</text>
+    <rect class="chip" x="510" y="74" width="86" height="26"/><text class="ct2" x="553" y="91">关于我们</text>
+    <rect class="chip" x="40" y="106" width="86" height="26"/><text class="ct2" x="83" y="123">招聘（静态）</text>
+    <rect class="chip" x="134" y="106" width="86" height="26"/><text class="ct2" x="177" y="123">案例（静态）</text>
+    <rect class="chip" x="228" y="106" width="200" height="26"/><text class="ct2" x="328" y="123">联系我们（含留言/询价表单）</text>
+  </g>
+
+  <!-- Band B -->
+  <rect class="cont" x="24" y="150" width="632" height="74" rx="8"/>
+  <text class="ct" x="36" y="170">② 复用层（TailwindCSS 组件 + 设计令牌）</text>
+  <g>
+    <rect class="chip" x="40" y="180" width="78" height="24"/><text class="ct3" x="79" y="196">Button</text>
+    <rect class="chip" x="126" y="180" width="78" height="24"/><text class="ct3" x="165" y="196">Card</text>
+    <rect class="chip" x="212" y="180" width="78" height="24"/><text class="ct3" x="251" y="196">Modal</text>
+    <rect class="chip" x="298" y="180" width="78" height="24"/><text class="ct3" x="337" y="196">Form</text>
+    <rect class="chip" x="384" y="180" width="78" height="24"/><text class="ct3" x="423" y="196">Nav</text>
+    <rect class="chip" x="470" y="180" width="78" height="24"/><text class="ct3" x="509" y="196">Footer</text>
+    <rect class="chip" x="556" y="180" width="86" height="24"/><text class="ct3" x="599" y="196">Toast</text>
+    <rect class="chip" x="40" y="200" width="300" height="20"/><text class="ct3" x="190" y="214">品牌色令牌（胡桃木棕 #7D5A3C 等）</text>
+  </g>
+
+  <!-- Band C -->
+  <rect class="cont" x="24" y="240" width="632" height="76" rx="8"/>
+  <text class="ct" x="36" y="260">③ 数据 / 状态层</text>
+  <g>
+    <rect class="chip" x="40" y="270" width="190" height="30"/><text class="ct2" x="135" y="289">axios 实例 + 拦截器</text>
+    <rect class="chip" x="244" y="270" width="180" height="30"/><text class="ct2" x="334" y="289">React Query（服务端缓存）</text>
+    <rect class="chip" x="448" y="270" width="180" height="30"/><text class="ct2" x="538" y="289">Zustand（UI 全局态）</text>
+  </g>
+
+  <!-- Band D -->
+  <rect class="cont" x="24" y="332" width="632" height="74" rx="8"/>
+  <text class="ct" x="36" y="352">④ 基础设施</text>
+  <g>
+    <rect class="chip" x="40" y="362" width="150" height="28"/><text class="ct2" x="115" y="380">React Router v6</text>
+    <rect class="chip" x="204" y="362" width="150" height="28"/><text class="ct2" x="279" y="380">环境变量 .env</text>
+    <rect class="chip" x="368" y="362" width="150" height="28"/><text class="ct2" x="443" y="380">utils &amp; hooks</text>
+    <rect class="chip" x="532" y="362" width="140" height="28"/><text class="ct2" x="602" y="380">XSS 清洗</text>
+  </g>
+
+  <line class="edge" x1="200" y1="136" x2="200" y2="150"/>
+  <line class="edge" x1="340" y1="224" x2="340" y2="240"/>
+  <line class="edge" x1="480" y1="316" x2="480" y2="332"/>
+  <rect class="bg" x="500" y="138" width="120" height="14"/><text class="el" x="560" y="149">使用组件</text>
+  <rect class="bg" x="356" y="226" width="140" height="14"/><text class="el" x="426" y="237">请求数据</text>
+</svg>
