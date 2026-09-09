@@ -61,7 +61,7 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(String(128), nullable=False)
     real_name: Mapped[str | None] = mapped_column(String(50))
     email: Mapped[str | None] = mapped_column(String(120))
-    phone: Mapped[str | None] = mapped_column(String(20))  # AES-256-GCM 密文
+    phone: Mapped[str | None] = mapped_column(String(255))  # AES-256-GCM 密文(密文约52+字符,需255)
     role_id: Mapped[int] = mapped_column(
         ForeignKey("roles.id", ondelete="RESTRICT"), nullable=False, index=True
     )

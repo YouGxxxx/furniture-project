@@ -27,7 +27,7 @@ class Message(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
-    phone: Mapped[str] = mapped_column(String(20), nullable=False)  # AES-256-GCM 密文
+    phone: Mapped[str] = mapped_column(String(255), nullable=False)  # AES-256-GCM 密文(密文约52+字符,需255)
     email: Mapped[str | None] = mapped_column(String(120))
     type: Mapped[str] = mapped_column(String(20), nullable=False)  # message / inquiry
     product_id: Mapped[int | None] = mapped_column(
