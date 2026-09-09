@@ -4,10 +4,17 @@ Phase 1 的 ORM 模型（app/models/*）均继承 Base。
 """
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 from app.core.config import settings
+
+
+def utcnow() -> datetime:
+    """返回无时区的 UTC 当前时间（文档约定时间统一存 UTC）。"""
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
 class Base(DeclarativeBase):
