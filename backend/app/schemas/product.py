@@ -1,7 +1,7 @@
 """产品域请求/响应模型：产品 / 分类(适用空间) / 系列。"""
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # ---------- 产品分类（适用空间） ----------
@@ -21,6 +21,7 @@ class ProductCategoryUpdate(BaseModel):
 
 
 class ProductCategoryOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
     parent_id: int | None = None
@@ -43,6 +44,7 @@ class ProductSeriesUpdate(BaseModel):
 
 
 class ProductSeriesOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
     sort: int

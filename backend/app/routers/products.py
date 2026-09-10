@@ -47,13 +47,14 @@ async def get_product(pid: int):
 
 @router.get("/product-categories")
 async def list_categories():
-    items = [ProductCategoryOut.model_validate(c).model_dump() for c in await product_service.list_categories()]
+    # list_categories 返回 ORM 对象，需 from_attributes 读取属性
+    items = [ProductCategoryOut.model_validate(c, from_attributes=True).model_dump() for c in await product_service.list_categories()]
     return success({"items": items, "total": len(items)})
 
 
 @router.get("/product-series")
 async def list_series():
-    items = [ProductSeriesOut.model_validate(s).model_dump() for s in await product_service.list_series()]
+    items = [ProductSeriesOut.model_validate(s, from_attributes=True).model_dump() for s in await product_service.list_series()]
     return success({"items": items, "total": len(items)})
 
 

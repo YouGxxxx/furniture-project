@@ -1,7 +1,7 @@
 """新闻域请求/响应模型：新闻 / 新闻分类。"""
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class NewsCategoryCreate(BaseModel):
@@ -19,6 +19,7 @@ class NewsCategoryUpdate(BaseModel):
 
 
 class NewsCategoryOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
     type: str | None = None

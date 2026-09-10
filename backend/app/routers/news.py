@@ -38,7 +38,7 @@ async def get_news(nid: int):
 
 @router.get("/news-categories")
 async def list_news_categories():
-    items = [NewsCategoryOut.model_validate(c).model_dump() for c in await news_service.list_categories()]
+    items = [NewsCategoryOut.model_validate(c, from_attributes=True).model_dump() for c in await news_service.list_categories()]
     return success({"items": items, "total": len(items)})
 
 
