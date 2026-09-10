@@ -40,10 +40,20 @@ def clean_html(html: str | None) -> str | None:
 
 
 _LINK_RE = re.compile(r"^https?://", re.IGNORECASE)
+_INTERNAL_RE = re.compile(r"^/")  # 站内绝对路径（HashRouter 路由，如 /product/5）
 
 
-def sanitize_link(url: str | None):
-    """校验 Banner 跳转链接协议；非法返回 None（调用方据此抛错）。"""
+def sanitize_link(url: str | None, allow_internal: bool = False):
+    """校验跳转链接协议。
+
+    - http(s):// 始终允许；
+    - allow_internal=True 时额外允许站内绝对路径（以 / 开头，对应前端 HashRouter 路由，如 /product/5）；
+    - 其余（javascript:/data: 等）一律拒绝，返回 None（调用方据此抛错）。
+    """
     if not url:
         return url
-    return url if _LINK_RE.match(url) else None
+    if _LINK_RE.match(url):
+        return url
+    if allow_internal and _INTERNAL_RE.match(url):
+        return url
+    return None

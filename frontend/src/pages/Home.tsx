@@ -76,9 +76,15 @@ export default function Home() {
               <div className="kicker">{s.kicker}</div>
               <h1>{s.title}</h1>
               {s.desc && <p>{s.desc}</p>}
-              <Link to={s.to} className="btn">
-                了解更多 <ArrowRight width={16} height={16} />
-              </Link>
+              {String(s.to).startsWith('http') ? (
+                <a href={s.to} className="btn" target="_blank" rel="noreferrer">
+                  了解更多 <ArrowRight width={16} height={16} />
+                </a>
+              ) : (
+                <Link to={s.to} className="btn">
+                  了解更多 <ArrowRight width={16} height={16} />
+                </Link>
+              )}
             </div>
           </div>
         ))}

@@ -51,9 +51,9 @@ async def list_banners() -> list[dict]:
 
 
 async def create_banner(data) -> int:
-    link = sanitize_link(data.link_url)
+    link = sanitize_link(data.link_url, allow_internal=True)
     if data.link_url and link is None:
-        raise BizError(ErrorCode.VALIDATION_ERROR, "跳转链接仅允许 http(s)://", 400)
+        raise BizError(ErrorCode.VALIDATION_ERROR, "跳转链接仅允许 http(s):// 或站内路径 /", 400)
     async with AsyncSessionLocal() as s:
         obj = Banner(
             title=data.title, image_url=data.image_url, link_url=link, sort=data.sort,
@@ -71,9 +71,9 @@ async def update_banner(bid: int, data) -> None:
         if not obj:
             raise BizError(ErrorCode.NOT_FOUND, "轮播图不存在", 404)
         if data.link_url is not None:
-            link = sanitize_link(data.link_url)
+            link = sanitize_link(data.link_url, allow_internal=True)
             if data.link_url and link is None:
-                raise BizError(ErrorCode.VALIDATION_ERROR, "跳转链接仅允许 http(s)://", 400)
+                raise BizError(ErrorCode.VALIDATION_ERROR, "跳转链接仅允许 http(s):// 或站内路径 /", 400)
             obj.link_url = link
         for f in ("title", "image_url", "sort", "status"):
             v = getattr(data, f)

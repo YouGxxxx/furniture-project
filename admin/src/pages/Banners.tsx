@@ -62,8 +62,8 @@ export default function Banners() {
           <Form.Item name="image_url" label="轮播图片" rules={[{ required: true, message: '请上传或填写图片地址' }]}>
             <ImageUpload />
           </Form.Item>
-          <Form.Item name="link_url" label="跳转链接" rules={[{ pattern: /^https?:\/\/.+/, message: '需为 http(s):// 开头' }]}>
-            <Input placeholder="https://...（可选）" />
+          <Form.Item name="link_url" label="跳转链接" rules={[{ pattern: /^(https?:\/\/.+|\/.*)$/, message: '需为 http(s):// 或站内路径 / 开头' }]}>
+            <Input placeholder="产品页填 /product/3，外链填 https://...（可选）" />
           </Form.Item>
           <Space style={{ display: 'flex' }} align="start">
             <Form.Item name="start_time" label="生效起（ISO，可选）" style={{ flex: 1 }}><Input placeholder="2026-01-01T00:00:00" /></Form.Item>
